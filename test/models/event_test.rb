@@ -60,5 +60,4 @@ class EventTest < ActiveSupport::TestCase
     @event.time = 2401
     assert_not @event.valid?
   end
-  
 end
