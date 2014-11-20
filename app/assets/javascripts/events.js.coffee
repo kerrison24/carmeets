@@ -4,4 +4,4 @@
 
 jQuery ->
   $('#event_date').datepicker
-    dateFormat: 'dd/mm/yy'
+    dateFormat: 'DD, d MM, yy'
