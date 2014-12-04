@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root'pages#home'
 
+  get 'users/new'
+  get 'signup' => 'users#new'
   resources :events
 
   # The priority is based upon order of creation: first created -> highest priority.
