@@ -5,4 +5,9 @@ FactoryGirl.define do
     f.description "Test"
     f.location "Melbourne"
   end
+
+  factory :user do |f|
+    f.sequence(:name) { |n| "Name#{n}" }
+    f.email "email@email.com"
+  end
 end
