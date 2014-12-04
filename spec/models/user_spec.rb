@@ -50,5 +50,9 @@ describe User do
     end
   end
 
-  
+  describe "email should be unique" do
+    let(:user) { User.new(name:"User1", email: "user1@email.com") }
+    let(:user_dup) { User.new(name:"User2", email: "user1@email.com") }
+    user_dup.should_not be_valid
+  end
 end
