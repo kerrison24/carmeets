@@ -40,4 +40,15 @@ describe User do
       it { should be_valid }
     end
   end
+
+  describe "when email format is invalid" do
+    invalid_addresses = %w[user@example,com user_at_foo.org user.name@example.
+                           foo@bar_baz.com foo@bar+baz.com]
+    invalid_addresses.each do |invalid_address|
+      before { @user.email = invalid_address }
+      it { should_not be_valid }
+    end
+  end
+
+  
 end
