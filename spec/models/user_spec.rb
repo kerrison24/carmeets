@@ -10,15 +10,17 @@ describe User do
 
   it { should respond_to(:name) }
   it { should respond_to(:email) }
+  it { should respond_to(:password) }
+  it { should respond_to(:password_confirmation) }
 
   it { should be_valid }
 
-  describe "when name is not present" do
+  describe "name is not present" do
     before { @user.name = nil }
     it { should_not be_valid }
   end
 
-  describe "when email is not present" do
+  describe "email is not present" do
     before { @user.email = nil }
     it { should_not be_valid }
   end
@@ -33,7 +35,7 @@ describe User do
     it { should_not be_valid }
   end
 
-  describe "when email format is valid" do
+  describe "email format is valid" do
     valid_addresses = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org
                          first.last@foo.jp alice+bob@baz.cn]
     valid_addresses.each do |valid_address|
@@ -42,7 +44,7 @@ describe User do
     end
   end
 
-  describe "when email format is invalid" do
+  describe "email format is invalid" do
     invalid_addresses = %w[user@example,com user_at_foo.org user.name@example.
                            foo@bar_baz.com foo@bar+baz.com]
     invalid_addresses.each do |invalid_address|
@@ -51,7 +53,7 @@ describe User do
     end
   end
 
-  describe "when email is already taken" do
+  describe "email is already taken" do
     before do
       @user.save
       @user_with_same_email = @user.dup
@@ -60,5 +62,10 @@ describe User do
     end
 
     it { @user_with_same_email.should_not be_valid }
+  end
+
+  describe "password is too short" do
+    before { @user.password = @user.password_confirmation = "a" * 5 }
+    it { should_not be_valid }
   end
 end
