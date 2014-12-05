@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe User do
   before do
-    @user = User.new(name: "Example User", email: "user@example.com")
+    @user = User.new(name: "Example User", email: "user@example.com",
+                     password: "foobar", password_confirmation: "foobar")
   end
 
   subject { @user }
@@ -50,10 +51,14 @@ describe User do
     end
   end
 
-  it "prevents duplications" do
-    user1 = User.new(name: "Example", email: "unique@email.com")
-    user2 = User.new(name: "Example1", email: "unique@email.com")
-    user1.should be_valid
-    user2.should_not be_valid
+  describe "when email is already taken" do
+    before do
+      @user.save
+      @user_with_same_email = @user.dup
+      @user_with_same_email.email = @user.email.upcase
+      @user_with_same_email.save
+    end
+
+    it { @user_with_same_email.should_not be_valid }
   end
 end
