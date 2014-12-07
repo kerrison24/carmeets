@@ -46,7 +46,7 @@ describe User do
 
   describe "email format is invalid" do
     invalid_addresses = %w[user@example,com user_at_foo.org user.name@example.
-                           foo@bar_baz.com foo@bar+baz.com]
+                           foo@bar_baz.com foo@bar+baz.com, foo@bar..com]
     invalid_addresses.each do |invalid_address|
       before { @user.email = invalid_address }
       it { should_not be_valid }
@@ -67,5 +67,14 @@ describe User do
   describe "password is too short" do
     before { @user.password = @user.password_confirmation = "a" * 5 }
     it { should_not be_valid }
+  end
+
+  describe "email should be saved as lowercase" do
+    let(:mixed_email_case) { "eMail@EmaIl.cOm" }
+    before do
+      @user.email = mixed_email_case
+      @user.save
+    end
+    it { @user.email.should eq(mixed_email_case.downcase) }
   end
 end
